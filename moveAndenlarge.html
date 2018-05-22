@@ -43,6 +43,7 @@
         }
         div{
             position:absolute;
+            //left: 480px;
             width: 100px;
             height: 100px;
             background-color: #ff6666;
@@ -84,7 +85,7 @@
                         }
                         if (left < 0 || left > maxX) {
                             left = Math.max(0,left);
-                            left = Math.min(left,maxY);
+                            left = Math.min(left,maxX);
                         }
                         div.style.top = top + "px";
                         div.style.left = left +"px";
