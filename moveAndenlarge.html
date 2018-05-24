@@ -69,7 +69,7 @@
         //console.log(document.documentElement.clientWidth , this.clientWidth);
        // console.log(maxX,maxY);
         // 绑定鼠标移动事件，不给div绑定的原因是，当鼠标移动太快，移出div的时候，事件会中断；
-        dcocument.onmousemove = function (e) {
+        document.onmousemove = function (e) {
             //console.log(e.clientX, e.clientY);
             // 得到相对于鼠标点击时，鼠标的位移，该位移为移动距离
             var moveX = e.clientX - startX,
