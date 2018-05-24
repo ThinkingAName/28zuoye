@@ -1,0 +1,169 @@
+<!doctype html>               <!--申明html文档-->
+<html>
+<head>
+    <meta charset="utf-8">      <!--字符编码为国际编码-->
+    <meta name="Author" content="40期风屿JS——不懂就问">    <!--网页创建者-->
+    <meta name="Keywords" content="作业，练习题">         <!--供搜索引擎搜索匹配的关键-->
+    <meta name="description" content="课后练习题作业，熟悉课堂学习操作">  <!--在搜索有结果页面显示的网页描述-->
+    <title>第2次课后作业</title>   <!--网页标题-->
+    <!--
+          <link rel="stylesheet" type="text/css" href="css/common.css">
+          <link rel="stylesheet" type="text/css" href="css/index.css">
+          <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+          <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+          -->
+    <style>
+        body, p, ul, dl, dd, ol, h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+        }
+
+        ul, ol {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0;
+        }
+
+        em, i {
+            font-style: normal; /*设置字体样式：正常显示（就是不倾斜）*/
+        }
+
+        strong, b {
+            font-weight: normal; /*设置字体加粗：正常显示（就是不加粗）*/
+        }
+
+        a {
+            text-decoration: none; /*去掉下划线*/
+        }
+        div{
+            position:absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff6666;
+        }
+        p{
+            position:absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <p></p>
+</div>
+
+<script>
+    var div = document.getElementsByTagName("div")[0],
+        p = document.getElementsByTagName("p")[0];
+
+    p.style.top = div.clientHeight-p.clientHeight + "px";
+    p.style.left = div.clientWidth-p.clientWidth + "px";
+
+    p.onclick = function (e) {
+        e.stopPropagation();
+        var maxX = document.documentElement.clientWidth - this.clientWidth,
+            maxY = document.documentElement.clientHeight - this.clientHeight,
+            // 记录初始的p的大小
+            heightStart = this.clientHeight,
+            widthStart = this.clientWidth,
+            // 记录初始鼠标坐标
+            startX = e.clientX,
+            startY = e.clientY;
+            document.onmousemove = function (e) {
+                //console.log(e.clientX, e.clientY);
+                // 得到相对于鼠标点击时，鼠标的位移，该位移为移动距离
+                var moveX = e.clientX - startX,
+                    moveY = e.clientY - startY,
+                    // 根据位移，算出相对鼠标点击时的，定位值；
+                    top =  heightStart + moveY,
+                    left = widthStart + moveX;
+                // console.log(e.clientY,e.clientX,"这个是鼠标移动的坐标");
+                // console.log(top,left);
+                // 判端定位值，在div的可移动范围内，及可视出口内；
+                if (top  < 0 || top  > maxY) {
+                    top = Math.max(0,top );
+                    top = Math.min(top ,maxY );
+                }
+                if (left < 0 || left > maxX) {
+                    left = Math.max(0,left);
+                    left = Math.min(left ,maxX);
+                }
+                // 重新定位div
+                div.style.height = top + "px";
+                div.style.width = left +"px";
+            }
+        }
+
+    div.onmousedown = function (e) {
+        var maxX = document.documentElement.clientWidth - this.clientWidth,
+            maxY = document.documentElement.clientHeight - this.clientHeight,
+            // 记录初始的div定位位置
+            topStart = div.offsetTop,
+            leftStart = div.offsetLeft,
+            // 记录初始鼠标坐标
+            startX = e.clientX,
+            startY = e.clientY;
+        //console.log(startX,startY);
+        //console.log(document.documentElement.clientWidth , this.clientWidth);
+        // console.log(maxX,maxY);
+        // 绑定鼠标移动事件，不给div绑定的原因是，当鼠标移动太快，移出div的时候，事件会中断；
+        document.onmousemove = function (e) {
+            //console.log(e.clientX, e.clientY);
+            // 得到相对于鼠标点击时，鼠标的位移，该位移为移动距离
+            var moveX = e.clientX - startX,
+                moveY = e.clientY - startY,
+                // 根据位移，算出相对鼠标点击时的，定位值；
+                top =  topStart + moveY,
+                left = leftStart + moveX;
+            // console.log(e.clientY,e.clientX,"这个是鼠标移动的坐标");
+            // console.log(top,left);
+            // 判端定位值，在div的可移动范围内，及可视出口内；
+            if (top  < 0 || top  > maxY) {
+                top = Math.max(0,top );
+                top = Math.min(top ,maxY );
+            }
+            if (left < 0 || left > maxX) {
+                left = Math.max(0,left);
+                left = Math.min(left ,maxX);
+            }
+            // 重新定位div
+            div.style.top = top + "px";
+            div.style.left = left +"px";
+        }
+        // divMoving();
+        //     function divMoving () {
+        //         if (top < 0 || top > maxY) {
+        //             top = Math.max(0,top);
+        //             top = Math.min(top,maxY);
+        //         }
+        //         if (left < 0 || left > maxX) {
+        //             left = Math.max(0,left);
+        //             left = Math.min(left,maxY);
+        //         }
+        //         div.style.top = top + "px";
+        //         div.style.left = left +"px";
+        //
+        //     }
+        //     requestAnimationFrame(divMoving,function () {
+        //         div.onmouseup = function () {
+        //             document.onmousemove = null;
+        //         }
+        //     })
+    };
+    // 当鼠标抬起，清除移动事件，不用div清除，原因同onmousemove
+    document.onmouseup = function () {
+        console.log(div.offsetTop,div.offsetLeft);
+        document.onmousemove = null;
+    };
+
+</script>
+</body>
+</html>
