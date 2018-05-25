@@ -67,17 +67,20 @@
     p.style.top = div.clientHeight-p.clientHeight + "px";
     p.style.left = div.clientWidth-p.clientWidth + "px";
 
-    p.onclick = function (e) {
+    p.onmousedown = function (e) {
         e.stopPropagation();
+        console.log(e);
         var maxX = document.documentElement.clientWidth - this.clientWidth,
             maxY = document.documentElement.clientHeight - this.clientHeight,
             // 记录初始的p的大小
-            heightStart = this.clientHeight,
-            widthStart = this.clientWidth,
+            heightStart = div.clientHeight,
+            widthStart = div.clientWidth,
             // 记录初始鼠标坐标
             startX = e.clientX,
             startY = e.clientY;
-            document.onmousemove = function (e) {
+
+           document.onmousemove = function (e) {
+               // console.log('1');
                 //console.log(e.clientX, e.clientY);
                 // 得到相对于鼠标点击时，鼠标的位移，该位移为移动距离
                 var moveX = e.clientX - startX,
@@ -85,8 +88,8 @@
                     // 根据位移，算出相对鼠标点击时的，定位值；
                     top =  heightStart + moveY,
                     left = widthStart + moveX;
-                // console.log(e.clientY,e.clientX,"这个是鼠标移动的坐标");
-                // console.log(top,left);
+                 console.log(e.clientY,e.clientX,"这个是鼠标移动的坐标");
+                 //console.log(top,left);
                 // 判端定位值，在div的可移动范围内，及可视出口内；
                 if (top  < 0 || top  > maxY) {
                     top = Math.max(0,top );
@@ -99,71 +102,15 @@
                 // 重新定位div
                 div.style.height = top + "px";
                 div.style.width = left +"px";
+               p.style.top = div.clientHeight-p.clientHeight + "px";
+               p.style.left = div.clientWidth-p.clientWidth + "px";
+                console.log(top,left);
             }
-        }
-
-    div.onmousedown = function (e) {
-        var maxX = document.documentElement.clientWidth - this.clientWidth,
-            maxY = document.documentElement.clientHeight - this.clientHeight,
-            // 记录初始的div定位位置
-            topStart = div.offsetTop,
-            leftStart = div.offsetLeft,
-            // 记录初始鼠标坐标
-            startX = e.clientX,
-            startY = e.clientY;
-        //console.log(startX,startY);
-        //console.log(document.documentElement.clientWidth , this.clientWidth);
-        // console.log(maxX,maxY);
-        // 绑定鼠标移动事件，不给div绑定的原因是，当鼠标移动太快，移出div的时候，事件会中断；
-        document.onmousemove = function (e) {
-            //console.log(e.clientX, e.clientY);
-            // 得到相对于鼠标点击时，鼠标的位移，该位移为移动距离
-            var moveX = e.clientX - startX,
-                moveY = e.clientY - startY,
-                // 根据位移，算出相对鼠标点击时的，定位值；
-                top =  topStart + moveY,
-                left = leftStart + moveX;
-            // console.log(e.clientY,e.clientX,"这个是鼠标移动的坐标");
-            // console.log(top,left);
-            // 判端定位值，在div的可移动范围内，及可视出口内；
-            if (top  < 0 || top  > maxY) {
-                top = Math.max(0,top );
-                top = Math.min(top ,maxY );
-            }
-            if (left < 0 || left > maxX) {
-                left = Math.max(0,left);
-                left = Math.min(left ,maxX);
-            }
-            // 重新定位div
-            div.style.top = top + "px";
-            div.style.left = left +"px";
-        }
-        // divMoving();
-        //     function divMoving () {
-        //         if (top < 0 || top > maxY) {
-        //             top = Math.max(0,top);
-        //             top = Math.min(top,maxY);
-        //         }
-        //         if (left < 0 || left > maxX) {
-        //             left = Math.max(0,left);
-        //             left = Math.min(left,maxY);
-        //         }
-        //         div.style.top = top + "px";
-        //         div.style.left = left +"px";
-        //
-        //     }
-        //     requestAnimationFrame(divMoving,function () {
-        //         div.onmouseup = function () {
-        //             document.onmousemove = null;
-        //         }
-        //     })
-    };
-    // 当鼠标抬起，清除移动事件，不用div清除，原因同onmousemove
-    document.onmouseup = function () {
-        console.log(div.offsetTop,div.offsetLeft);
-        document.onmousemove = null;
-    };
-
+        };
+        document.onmouseup = function () {
+            //console.log(div.offsetTop,div.offsetLeft);
+            document.onmousemove = null;
+        };
 </script>
 </body>
 </html>
